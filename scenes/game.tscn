@@ -1,0 +1,124 @@
+[gd_scene load_steps=15 format=3 uid="uid://xac7i33f3cd1"]
+
+[ext_resource type="PackedScene" uid="uid://bbiw4xn74eyef" path="res://scenes/map.tscn" id="2_kvke0"]
+[ext_resource type="PackedScene" uid="uid://w71b6xkm5302" path="res://scenes/player.tscn" id="2_nw23h"]
+[ext_resource type="PackedScene" uid="uid://dn0fr0kekmtoa" path="res://scenes/barrier.tscn" id="5_jq3ku"]
+[ext_resource type="PackedScene" uid="uid://dlauicr0bp74p" path="res://scenes/score.tscn" id="5_sk6qn"]
+[ext_resource type="PackedScene" uid="uid://bbyyvktdntq24" path="res://scenes/spawner.tscn" id="5_u4glq"]
+[ext_resource type="Script" path="res://scripts/attack.gd" id="7_5o48p"]
+[ext_resource type="Texture2D" uid="uid://c4box8uebalgg" path="res://assets/sprites/gui/button.png" id="8_83grv"]
+[ext_resource type="Texture2D" uid="uid://p2tqg40stg20" path="res://assets/sprites/gui/button_pressed.png" id="9_3dqkp"]
+[ext_resource type="PackedScene" uid="uid://bsu1f34ufc6jo" path="res://scenes/joystick.tscn" id="18_jrip2"]
+
+[sub_resource type="GDScript" id="GDScript_d6lew"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_f014q"]
+points = PackedVector2Array(0, 15, 15, 0, 15, -15, -15, -15, -15, 0)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_xt5x4"]
+points = PackedVector2Array(0, -15, 15, 0, 15, 15, -15, 15, -15, 0)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_7wxox"]
+points = PackedVector2Array(15, 0, 0, 15, -15, 15, -15, -15, 0, -15)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_57ibl"]
+points = PackedVector2Array(-15, 0, 0, 15, 15, 15, 15, -15, 0, -15)
+
+[node name="Game" type="Node2D"]
+position = Vector2(3, 141)
+script = SubResource("GDScript_d6lew")
+
+[node name="Player" parent="." instance=ExtResource("2_nw23h")]
+z_index = 5
+position = Vector2(65, -7)
+
+[node name="Mapa" parent="." instance=ExtResource("2_kvke0")]
+position = Vector2(6, 31)
+
+[node name="Spawners" type="Node" parent="."]
+
+[node name="Spawner" parent="Spawners" instance=ExtResource("5_u4glq")]
+enemy_position = Vector2(-17, 131)
+
+[node name="Spawner2" parent="Spawners" instance=ExtResource("5_u4glq")]
+enemy_position = Vector2(72, 269)
+
+[node name="Spawner3" parent="Spawners" instance=ExtResource("5_u4glq")]
+enemy_position = Vector2(160, 132)
+
+[node name="Spawner4" parent="Spawners" instance=ExtResource("5_u4glq")]
+enemy_position = Vector2(72, -16)
+
+[node name="Score" parent="." instance=ExtResource("5_sk6qn")]
+offset_left = 64.0
+offset_top = -127.0
+offset_right = 176.0
+offset_bottom = -108.0
+theme_override_font_sizes/font_size = 8
+metadata/_edit_use_anchors_ = true
+
+[node name="Barriers" type="Node" parent="."]
+
+[node name="Barrier" parent="Barriers" instance=ExtResource("5_jq3ku")]
+position = Vector2(73, 252)
+
+[node name="Barrier2" parent="Barriers" instance=ExtResource("5_jq3ku")]
+position = Vector2(72, 4)
+rotation = -3.14159
+
+[node name="Barrier3" parent="Barriers" instance=ExtResource("5_jq3ku")]
+position = Vector2(4, 132)
+rotation = 1.5708
+
+[node name="Barrier4" parent="Barriers" instance=ExtResource("5_jq3ku")]
+position = Vector2(140, 132)
+rotation = -1.57078
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(69, 23)
+scale = Vector2(0.627451, 0.571429)
+position_smoothing_enabled = true
+
+[node name="Attack" type="TouchScreenButton" parent="."]
+script = ExtResource("7_5o48p")
+
+[node name="up" type="TouchScreenButton" parent="Attack"]
+z_index = 75
+position = Vector2(102, 129)
+texture_normal = ExtResource("8_83grv")
+texture_pressed = ExtResource("9_3dqkp")
+shape = SubResource("ConvexPolygonShape2D_f014q")
+passby_press = true
+
+[node name="down" type="TouchScreenButton" parent="Attack"]
+z_index = 75
+position = Vector2(102, 159)
+texture_normal = ExtResource("8_83grv")
+texture_pressed = ExtResource("9_3dqkp")
+shape = SubResource("ConvexPolygonShape2D_xt5x4")
+passby_press = true
+
+[node name="left" type="TouchScreenButton" parent="Attack"]
+z_index = 75
+position = Vector2(87, 144)
+texture_normal = ExtResource("8_83grv")
+texture_pressed = ExtResource("9_3dqkp")
+shape = SubResource("ConvexPolygonShape2D_7wxox")
+passby_press = true
+
+[node name="right" type="TouchScreenButton" parent="Attack"]
+z_index = 75
+position = Vector2(117, 144)
+texture_normal = ExtResource("8_83grv")
+texture_pressed = ExtResource("9_3dqkp")
+shape = SubResource("ConvexPolygonShape2D_57ibl")
+passby_press = true
+
+[node name="Joystick" parent="." instance=ExtResource("18_jrip2")]
+z_index = 100
+position = Vector2(34, 152)
+
+[connection signal="pressed" from="Attack/up" to="Attack" method="_on_up_pressed"]
+[connection signal="pressed" from="Attack/down" to="Attack" method="_on_down_pressed"]
+[connection signal="pressed" from="Attack/left" to="Attack" method="_on_left_pressed"]
+[connection signal="pressed" from="Attack/right" to="Attack" method="_on_right_pressed"]

@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://w71b6xkm5302"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_t0tl8"]
+[ext_resource type="PackedScene" uid="uid://c878brwlopv1l" path="res://scenes/claws.tscn" id="2_kgovn"]
+[ext_resource type="Texture2D" uid="uid://cue583w6v6xfg" path="res://assets/sprites/entities/Characters.png" id="3_mrmi3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3mrs"]
+atlas = ExtResource("3_mrmi3")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g85ra"]
+atlas = ExtResource("3_mrmi3")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fown6"]
+atlas = ExtResource("3_mrmi3")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq4bv"]
+atlas = ExtResource("3_mrmi3")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_44apu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3mrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g85ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fown6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iq4bv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ht0mg"]
+radius = 3.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_t0tl8")
+player_name = "Wildmi"
+power_scene = ExtResource("2_kgovn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 5
+sprite_frames = SubResource("SpriteFrames_44apu")
+autoplay = "default"
+frame_progress = 0.832601
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ht0mg")
+debug_color = Color(0, 0.643137, 0.294118, 0.419608)
+
+[node name="AttackMarker" type="Marker2D" parent="."]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(8, 0)
+
+[connection signal="defeat" from="." to="." method="_on_defeat"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

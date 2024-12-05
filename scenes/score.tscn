@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlauicr0bp74p"]
+
+[ext_resource type="FontFile" uid="uid://c821dxqjylhiv" path="res://assets/fonts/m04.TTF" id="1_vblfi"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="2_uwpvi"]
+
+[node name="Score" type="Label"]
+z_index = 75
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_fonts/font = ExtResource("1_vblfi")
+text = "0 SCORE"
+script = ExtResource("2_uwpvi")
